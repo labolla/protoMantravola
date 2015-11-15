@@ -15,12 +15,10 @@ SoftWare:
 
 ## Release:
 0.1: first implementation of only led displayed on 3 soft button press
+0.2: five soft button press supporting single blink mode. use ledDisplay class
 
 
 ## TODO:
-- strucure the code to have
-  > a common structure/class for button (5 instance);
-  > a common structure/class for led display
 - move code under ISR
 - add tune playing
 - add analog queue basic logic
