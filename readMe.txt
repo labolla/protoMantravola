@@ -16,11 +16,21 @@ SoftWare:
 ## Release:
 0.1: first implementation of only led displayed on 3 soft button press
 0.2: five soft button press supporting single blink mode. use ledDisplay class
+0.3: add tune playing: five tone for each soft button playing pentatonic
 
 
 ## TODO:
+- fix 0001: need re assign pin; use another PWM pin from the one used by soft button (they may use pin 3)
 - move code under ISR
-- add tune playing
+- fine tune: 
+  - step to increase led brightness to compensate difference output scale per color and 
+  - sample refresh (delay(50);)
 - add analog queue basic logic
 - add second blinking mode
 - finalize switch mode state machine with tune playing
+
+## BUG and FIX
+0001 -  adding tone function lead to have blue led (pin 11) to fill value immediately
+        reason seems https://www.arduino.cc/en/Reference/Tone
+        Use of the tone() function will interfere with PWM output on pins 3 and 11 (on boards other than the Mega).
+        
