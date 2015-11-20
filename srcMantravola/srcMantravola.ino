@@ -1,9 +1,10 @@
 #include <CapacitiveSensor.h>
 
-int RED_PIN = 9;
-int GREEN_PIN = 10;
-int BLUE_PIN = 11;
-int SPK_PIN = 12;
+// LED defines
+int RED_PIN = 5;
+int GREEN_PIN = 6;
+int BLUE_PIN = 9;
+int SPK_PIN = A0;
 
 #define VALUE_MAX  0
 #define VALUE_OFF  255
@@ -13,7 +14,15 @@ int SPK_PIN = 12;
 #define G_IDX 1
 #define B_IDX 2
 
-#define  SOFT_BTN_THRESHOLD   100
+// capacitor soft button defines
+#define SOURCE_PIN     2
+#define HR_SENSE_PIN   4
+#define LR_SENSE_PIN   7
+#define CE_SENSE_PIN   8
+#define LL_SENSE_PIN  12
+#define HL_SENSE_PIN  13
+
+#define  SOFT_BTN_THRESHOLD   400
 
 // define class for LED display
 class RGB_Led
@@ -34,6 +43,8 @@ class RGB_Led
     pinMode(pin[R_IDX], OUTPUT);
     pinMode(pin[G_IDX], OUTPUT);
     pinMode(pin[B_IDX], OUTPUT);
+
+    pinMode(SPK_PIN, OUTPUT);
   }
 
   void voting(boolean red, boolean green, boolean blue)
@@ -75,11 +86,11 @@ class RGB_Led
   }
 };
 
-CapacitiveSensor HR_4_2 = CapacitiveSensor(2,4);
-CapacitiveSensor LR_5_2 = CapacitiveSensor(2,5);
-CapacitiveSensor Ce_6_2 = CapacitiveSensor(2,6);
-CapacitiveSensor LL_7_2 = CapacitiveSensor(2,7);
-CapacitiveSensor HL_8_2 = CapacitiveSensor(2,8);
+CapacitiveSensor HR_4_2 = CapacitiveSensor(SOURCE_PIN,HR_SENSE_PIN);
+CapacitiveSensor LR_5_2 = CapacitiveSensor(SOURCE_PIN,LR_SENSE_PIN);
+CapacitiveSensor Ce_6_2 = CapacitiveSensor(SOURCE_PIN,CE_SENSE_PIN);
+CapacitiveSensor LL_7_2 = CapacitiveSensor(SOURCE_PIN,LL_SENSE_PIN);
+CapacitiveSensor HL_8_2 = CapacitiveSensor(SOURCE_PIN,HL_SENSE_PIN);
 
 
 RGB_Led  ledRGB(RED_PIN, BLUE_PIN, GREEN_PIN);
@@ -116,15 +127,15 @@ void loop() {
   long HL_value =  HL_8_2.capacitiveSensor(30);
   int pitch;
 
-  //Serial.print(HR_value);
-  //Serial.print("  ");
-  //Serial.print(LR_value);
-  //Serial.print("  ");
-  //Serial.print(Ce_value);
-  //Serial.print("  ");
-  //Serial.print(LL_value);
-  //Serial.print("  ");
-  //Serial.println(HL_value);
+  Serial.print(HR_value);
+  Serial.print("  ");
+  Serial.print(LR_value);
+  Serial.print("  ");
+  Serial.print(Ce_value);
+  Serial.print("  ");
+  Serial.print(LL_value);
+  Serial.print("  ");
+  Serial.println(HL_value);
 
   pitch = 0;
   if (HR_value > SOFT_BTN_THRESHOLD)
@@ -159,12 +170,11 @@ void loop() {
 
   boolean isLedOn = ledRGB.update_values();
 
-  Serial.println(isLedOn);
   if (pitch)
      tone(SPK_PIN, pitch);
   else
      noTone(SPK_PIN);
   
-  delay(50);
+  delay(15);
 
 }

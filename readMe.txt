@@ -16,11 +16,12 @@ SoftWare:
 ## Release:
 0.1: first implementation of only led displayed on 3 soft button press
 0.2: five soft button press supporting single blink mode. use ledDisplay class
-0.3: add tune playing: five tone for each soft button playing pentatonic
+0.3: add tune playing: five tones for each soft button playing pentatonic
+0.4: fix Blue Led issue due to pin 11 used: re-map pins
 
 
 ## TODO:
-- fix 0001: need re assign pin; use another PWM pin from the one used by soft button (they may use pin 3)
+- structured code for softButton
 - move code under ISR
 - fine tune: 
   - step to increase led brightness to compensate difference output scale per color and 
